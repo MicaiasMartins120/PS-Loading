@@ -1,0 +1,249 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Task Manager API",
+		"description": "This API is a project made for test",
+		"conatct": {
+			"email": "micaiasmartins@alu.ufc.br"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3000/api",
+			"description": "Localhost of API"
+		}
+	],
+	"paths" : {
+		"/task": {
+			"post": {
+				"summary": "Post task in database",
+				"description": "Make a post on database",
+				"tags": ["Tasks"],
+				"security": [{ "bearerAuth": [] }],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schema/postTask"
+							},
+							"examples": {
+								"task": {
+									"value": {
+										"title": "task",
+										"description": "description of task",
+										"status": "Concluída"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Task created !",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schema/responseTask"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Failed to create task"
+					}
+				}
+			}
+		},
+		"/tasks/{_id}": {
+			"put": {
+				"description": "Update task by id",
+				"summary": "Update one task by id",
+				"tags": ["Tasks"],
+				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+						"name": "_id",
+						"in": "path",
+						"description": "Id for update task",
+						"required": true
+					}	
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "string",
+								"properties": {
+									"status": "string"
+								}
+							},
+							"examples": {
+								"task": {
+									"value": {
+										"status": "Pendente"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Updated task: ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schema/responseTask"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Task not found"
+					},
+					"400":{
+						"description": "Failed to get task"
+					}
+				}
+			},
+			"get": {
+				"description": "Search one task by id",
+				"summary": "Search one task by id",
+				"tags": ["Tasks"],
+				"parameters": [
+					{
+						"name": "_id",
+						"in": "path",
+						"description": "Id for search task",
+						"required": true
+					}	
+				],
+				"responses": {
+					"200": {
+						"description": "Task: ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schema/responseTask"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Task not found"
+					},
+					"400":{
+						"description": "Failed to update task"
+					}
+				}
+			},
+			"delete": {
+				"description": "Delete a task",
+				"summary": "Deletes a task",
+				"tags": ["Tasks"],
+				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+					"name": "_id",
+					"in": "path",
+					"description": "Id for delete a task",
+					"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Deleted task: ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schema/responseTask"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Task not found"
+					},
+					"400":{
+						"description": "Failed to delete task"
+					}
+				}
+			}
+		},
+		"/tasks": {
+			"get": {
+				"description": "Get all tasks",
+				"summary": "Get all tasks",
+				"tags": ["Tasks"],
+				"responses": {
+					"200": {
+						"description": "Task: ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schema/responseTask"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Failed to get tasks"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schema": {
+			"postTask": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					}
+				}
+			},
+			"responseTask": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string"
+					},
+					"updatedAt": {
+						"type": "string"
+					},
+					"--v": {
+						"type": "number"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}
