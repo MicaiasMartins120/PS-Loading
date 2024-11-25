@@ -17,6 +17,3 @@ app.use("/api", routes);
 app.listen(3000, function(){
 	console.log("Server is running !");
 });
-
-//e1VKlFdoownKZ3D3
-//PJvuU05BQvz4aYni
